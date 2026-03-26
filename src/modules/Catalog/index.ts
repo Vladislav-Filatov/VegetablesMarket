@@ -1,0 +1,1 @@
+export {default as Catalog} from './CardList/CardList.tsx';

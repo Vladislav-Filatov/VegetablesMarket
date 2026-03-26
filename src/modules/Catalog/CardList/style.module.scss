@@ -1,0 +1,12 @@
+.catalog {
+  padding: 60px 80px;
+  background-color: #F3F5FA;
+}
+
+.list {
+  padding-top: 50px;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(250px, 350px));
+  gap: 28px 24px;
+  justify-content: space-between;
+}

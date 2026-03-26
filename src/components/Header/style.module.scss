@@ -1,0 +1,28 @@
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 20px 8px 32px;
+}
+
+.title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+//.highlight {
+//  background-color: #54B46A;
+//  color: #FFFFFF;
+//  font-size: 20px;
+//  padding: 4px 12px 6px 12px;
+//  border-radius: 21px;
+//  font-weight: 500;
+//}
+
+.cart-button {
+  padding-inline: 40px;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 600;
+}
