@@ -1,6 +1,7 @@
 .catalog {
   padding: 60px 80px;
   background-color: #F3F5FA;
+  min-height: 100vh;
 }
 
 .list {
@@ -9,4 +10,12 @@
   grid-template-columns: repeat(4, minmax(250px, 350px));
   gap: 28px 24px;
   justify-content: space-between;
+}
+
+.loader-wrapper {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
