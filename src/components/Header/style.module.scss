@@ -1,8 +1,12 @@
 .header {
   display: flex;
+  background-color: #FFFFFF;
   align-items: center;
   justify-content: space-between;
   padding: 8px 20px 8px 32px;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
 }
 
 .title {
@@ -10,15 +14,6 @@
   align-items: center;
   gap: 8px;
 }
-
-//.highlight {
-//  background-color: #54B46A;
-//  color: #FFFFFF;
-//  font-size: 20px;
-//  padding: 4px 12px 6px 12px;
-//  border-radius: 21px;
-//  font-weight: 500;
-//}
 
 .cart-button {
   padding-inline: 40px;
