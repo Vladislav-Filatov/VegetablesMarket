@@ -27,7 +27,7 @@ const CardList = () => {
 
   return (
     <section className={styles.catalog}>
-      <h2>Catalog</h2>
+      <h2 className={styles.title}>Catalog</h2>
       {isLoading ? (
         <div className={styles['loader-wrapper']}>
           <Loader color="green" size="xl" />
