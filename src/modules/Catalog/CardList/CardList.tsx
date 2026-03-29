@@ -1,8 +1,8 @@
 import styles from './style.module.scss'
-import { VegetableCard } from "../Card/VegetableCard.tsx";
+import { VegetableCard } from "../VegetableCard/VegetableCard.tsx";
 import {getProducts} from "../api/GetProducts.ts";
 import { useEffect, useState} from "react";
-import type {CardInfo} from "../types.ts";
+import type {CardInfo} from "../../../types/cardTypes.ts";
 import { Loader } from '@mantine/core';
 
 const CardList = () => {
@@ -37,6 +37,7 @@ const CardList = () => {
           {products.map((product) => (
             <li key={product.id}>
               <VegetableCard
+                id={product.id}
                 name={product.name}
                 image={product.image}
                 price={product.price}

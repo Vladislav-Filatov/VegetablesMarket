@@ -1,6 +1,7 @@
-import {Badge, Button} from '@mantine/core';
-import Cart from "../../assets/cart.svg?react"
+import {Badge, Button, Popover} from '@mantine/core';
+import CartIcon from "../../assets/cart.svg?react"
 import styles from './style.module.scss';
+import {Cart} from "../../modules/CartPopup/Cart/Cart.tsx";
 
 const Header = () => {
   return (
@@ -8,9 +9,16 @@ const Header = () => {
       <h2 className={styles.title}>
         Vegetable <Badge pl={12} pr={12} fw={500} size="xl" color="#54B46A">SHOP</Badge>
       </h2>
-      <Button className={styles['cart-button']} variant="filled" color="#54B46A" rightSection={<Cart/>}>
-        Cart
-      </Button>
+      <Popover radius={16}>
+        <Popover.Target>
+          <Button  className={styles['cart-button']} variant="filled" color="#54B46A" rightSection={<CartIcon/>}>
+            Cart
+          </Button>
+        </Popover.Target>
+        <Popover.Dropdown p={0}>
+          <Cart/>
+        </Popover.Dropdown>
+      </Popover>
     </header>
   );
 };
