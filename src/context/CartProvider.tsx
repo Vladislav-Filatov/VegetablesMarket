@@ -1,4 +1,4 @@
-import {type ReactNode, useState,  useEffect} from "react";
+import {type ReactNode, useState } from "react";
 import {CartContext} from "./CartContext.ts";
 import type {CartPositionInfo} from "./CartContext.ts";
 
@@ -10,7 +10,7 @@ export const CartProvider = ({children}: CartProviderProps) => {
   const [cartList, setCartList] = useState<CartPositionInfo[]>([]);
 
   const addToCart = (vegetable: CartPositionInfo) => {
-    setCartList((prev) => {
+    setCartList(prev => {
       const isAlreadyExists = prev.find((item) => item.id===vegetable.id)
       if (isAlreadyExists) {
         return prev.map(item => (
@@ -22,12 +22,31 @@ export const CartProvider = ({children}: CartProviderProps) => {
       return [...prev, vegetable];
     })
   };
-  useEffect(() => {
-    console.log(cartList);
-  }, [cartList]);
+
+  const incrementCartPosition = (id: number) => {
+    setCartList(prev => (
+      prev.map(item => (
+        item.id===id
+          ? {...item, count: item.count + 1}
+          : item
+      ))
+    ))
+  };
+
+  const decrementCartPosition = (id: number) => {
+    setCartList(prev => (
+      prev
+        .map(item => (
+          item.id === id
+            ? {...item, count: item.count - 1}
+            : item
+        ))
+        .filter(item => item.count>0)
+    ))
+  }
 
   return (
-    <CartContext.Provider value={{cartList, addToCart}}>
+    <CartContext.Provider value={{cartList, addToCart, incrementCartPosition, decrementCartPosition}}>
       {children}
     </CartContext.Provider>
   );

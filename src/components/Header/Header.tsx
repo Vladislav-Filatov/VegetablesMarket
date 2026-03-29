@@ -2,16 +2,23 @@ import {Badge, Button, Popover} from '@mantine/core';
 import CartIcon from "../../assets/cart.svg?react"
 import styles from './style.module.scss';
 import {Cart} from "../../modules/CartPopup/Cart/Cart.tsx";
+import { useContext } from "react";
+import {CartContext} from "../../context/CartContext.ts";
 
 const Header = () => {
+  const context = useContext(CartContext);
+  if (!context) {
+    throw new Error('Контекст потерян');
+  }
+
   return (
     <header className={styles.header}>
       <h2 className={styles.title}>
         Vegetable <Badge pl={12} pr={12} fw={500} size="xl" color="#54B46A">SHOP</Badge>
       </h2>
-      <Popover radius={16}>
+      <Popover radius={16} floatingStrategy="fixed">
         <Popover.Target>
-          <Button  className={styles['cart-button']} variant="filled" color="#54B46A" rightSection={<CartIcon/>}>
+          <Button className={styles['cart-button']} variant="filled" color="#54B46A" leftSection={context.cartList.length > 0 ? <span className={styles['cart-counter']}>{context.cartList.length}</span> : null} rightSection={<CartIcon/>}>
             Cart
           </Button>
         </Popover.Target>
