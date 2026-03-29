@@ -13,9 +13,11 @@ const Header = () => {
 
   return (
     <header className={styles.header}>
-      <h2 className={styles.title}>
-        Vegetable <Badge pl={12} pr={12} fw={500} size="xl" color="#54B46A">SHOP</Badge>
-      </h2>
+      <a href="#" className={styles['title-link']}>
+        <h2 className={styles.title}>
+          Vegetable <Badge style={{cursor: "pointer"}} pl={12} pr={12} fw={500} size="xl" color="#54B46A">SHOP</Badge>
+        </h2>
+      </a>
       <Popover radius={16} floatingStrategy="fixed">
         <Popover.Target>
           <Button className={styles['cart-button']} variant="filled" color="#54B46A" leftSection={context.cartList.length > 0 ? <span className={styles['cart-counter']}>{context.cartList.length}</span> : null} rightSection={<CartIcon/>}>
