@@ -1,4 +1,6 @@
 .title {
+  font-size: 32px;
+  font-weight: 600;
   @media screen and (max-width: 768px) {
     align-self: center;
   }
@@ -15,9 +17,13 @@
 .list {
   padding-top: 50px;
   display: grid;
-  grid-template-columns: repeat(4, minmax(302px, 370px));
+  grid-template-columns: repeat(5, minmax(302px, 370px));
   gap: 28px 24px;
   justify-content: space-between;
+
+  @media screen and (max-width: 1925px) {
+    grid-template-columns: repeat(4, minmax(302px, 370px));
+  }
 
   @media screen and (max-width: 1440px) {
     grid-template-columns: repeat(3, minmax(250px, 350px));

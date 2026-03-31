@@ -16,6 +16,7 @@ type VegetableCardProps = {
 export const VegetableCard = ({id, name, price, image}: VegetableCardProps) => {
   const [count, setCount] = useState<number>(1);
   const context = useContext(CartContext);
+  const [title, weight] = name.split(' - ');
   if (!context) {
     throw new Error('Контекст потерян');
   }
@@ -44,7 +45,14 @@ export const VegetableCard = ({id, name, price, image}: VegetableCardProps) => {
       </Group>
 
       <Group justify="space-between" mt="md" mb="xs">
-        <Text fw={500}>{name}</Text>
+        <Group gap={12}>
+          <Text fw={600} size="18px">
+            {title}
+          </Text>
+          <Text fw={600} size="14px" color="#868E96">
+            {weight}
+          </Text>
+        </Group>
         <Group gap={7}>
           <ActionIcon
             variant="subtle"
@@ -69,7 +77,7 @@ export const VegetableCard = ({id, name, price, image}: VegetableCardProps) => {
       </Group>
 
       <Group wrap="nowrap" justify="space-between">
-        <Text fw={500} style={{ flexShrink: 0 }}>$ {price}</Text>
+        <Text fw={500} size="20px" style={{ flexShrink: 0 }}>$ {price}</Text>
         <Button
           fullWidth
           className={styles['add-button']}

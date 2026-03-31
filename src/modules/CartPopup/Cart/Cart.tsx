@@ -5,7 +5,7 @@ import { useContext } from "react";
 import {CartContext} from "../../../context/CartContext.ts";
 import {CartPosition} from "../CartPosition/CartPosition.tsx";
 
-export const Cart = () => {
+const Cart = () => {
   const context =useContext(CartContext);
   if (!context) {
     throw new Error('Контекст потерян');
@@ -47,3 +47,5 @@ export const Cart = () => {
     )
   );
 };
+
+export default Cart;

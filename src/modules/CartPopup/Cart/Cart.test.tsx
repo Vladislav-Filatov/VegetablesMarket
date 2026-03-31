@@ -1,5 +1,5 @@
 import {describe, expect} from "vitest";
-import {Cart} from "./Cart.tsx";
+import {CartPopup} from "../index.ts";
 import {CartContext} from "../../../context/CartContext.ts";
 import {render} from "@testing-library/react";
 import {MantineProvider} from "@mantine/core";
@@ -43,7 +43,7 @@ describe('Cart', () => {
             decrementCartPosition: vi.fn(),
           }}
         >
-          <Cart />
+          <CartPopup />
         </CartContext.Provider>
       </MantineProvider>
     );
@@ -67,7 +67,7 @@ describe('Cart', () => {
             decrementCartPosition: vi.fn(),
           }}
         >
-          <Cart />
+          <CartPopup />
         </CartContext.Provider>
       </MantineProvider>
     );
@@ -93,7 +93,7 @@ describe('Cart', () => {
             decrementCartPosition: vi.fn(),
           }}
         >
-          <Cart />
+          <CartPopup />
         </CartContext.Provider>
       </MantineProvider>
     );

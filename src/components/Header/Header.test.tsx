@@ -6,9 +6,9 @@ import Header from "./Header.tsx";
 import { screen } from "@testing-library/react";
 import {userEvent} from "@testing-library/user-event";
 
-vi.mock('../../modules/CartPopup/Cart/Cart.tsx', () => (
+vi.mock('../../modules/CartPopup', () => (
   {
-    Cart: () => <div data-testid="cart-popup">Корзина</div>,
+    CartPopup: () => <div data-testid="cart-popup">Корзина</div>,
   }
 ));
 

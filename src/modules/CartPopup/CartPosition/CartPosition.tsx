@@ -15,6 +15,7 @@ interface CartPositionProps {
 
 export const CartPosition = ({id, image, name, price, count}: CartPositionProps) => {
   const context = useContext(CartContext);
+  const [title, weight] = name.split(' - ');
   if (!context) {
     throw new Error('Контекст потерян')
   }
@@ -32,8 +33,11 @@ export const CartPosition = ({id, image, name, price, count}: CartPositionProps)
     <div className={styles['cart-position']}>
       <img src={image} alt={name} width='64'/>
       <Stack gap={0} justify="space-around">
-        <p className={styles['cart-position__info']}>{name}</p>
-        <p className={styles['cart-position__info']}>$ {price}</p>
+        <Group gap={12}>
+          <p className={styles['cart-position__title']}>{title}</p>
+          <p className={styles['cart-position__weight']}>{weight}</p>
+        </Group>
+        <p className={styles['cart-position__price']}>$ {price}</p>
       </Stack>
       <Group gap={8} align="flex-end">
         <ActionIcon
