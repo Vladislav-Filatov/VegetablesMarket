@@ -1,6 +1,7 @@
 import {type ReactNode, useState } from "react";
 import {CartContext} from "./CartContext.ts";
 import type {CartPositionInfo} from "./CartContext.ts";
+import {addProductToCart, increment, decrement} from "./cart.utils.ts";
 
 interface CartProviderProps {
   children: ReactNode
@@ -10,39 +11,15 @@ export const CartProvider = ({children}: CartProviderProps) => {
   const [cartList, setCartList] = useState<CartPositionInfo[]>([]);
 
   const addToCart = (vegetable: CartPositionInfo) => {
-    setCartList(prev => {
-      const isAlreadyExists = prev.find((item) => item.id===vegetable.id)
-      if (isAlreadyExists) {
-        return prev.map(item => (
-          item.id===vegetable.id
-            ? {...item, count: item.count + vegetable.count}
-            : item
-        ))
-      }
-      return [...prev, vegetable];
-    })
+    setCartList(prev => addProductToCart(prev, vegetable));
   };
 
   const incrementCartPosition = (id: number) => {
-    setCartList(prev => (
-      prev.map(item => (
-        item.id===id
-          ? {...item, count: item.count + 1}
-          : item
-      ))
-    ))
+    setCartList(prev => increment(prev, id));
   };
 
   const decrementCartPosition = (id: number) => {
-    setCartList(prev => (
-      prev
-        .map(item => (
-          item.id === id
-            ? {...item, count: item.count - 1}
-            : item
-        ))
-        .filter(item => item.count>0)
-    ))
+    setCartList(prev => decrement(prev, id));
   }
 
   return (

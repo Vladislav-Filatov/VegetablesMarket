@@ -23,7 +23,9 @@ export const Cart = () => {
         alt="Корзина пуста"
         w={117}
       />
-      <Text className={styles['empty-cart-text']} ta="center">Ваша корзина пока пуста</Text>
+      <Text className={styles['empty-cart-text']} ta="center">
+        Ваша корзина пока пуста
+      </Text>
     </Stack>
     ) :
     (

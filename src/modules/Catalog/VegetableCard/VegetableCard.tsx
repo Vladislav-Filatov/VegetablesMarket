@@ -50,14 +50,18 @@ export const VegetableCard = ({id, name, price, image}: VegetableCardProps) => {
             variant="subtle"
             radius="md"
             onClick={handleMinusCount}
+            aria-label="minus-count"
           >
             <MinusIcon />
           </ActionIcon>
-          <Text>{count}</Text>
+          <Text data-testid="product-count">
+            {count}
+          </Text>
           <ActionIcon
             variant="subtle"
             radius="md"
             onClick={handlePlusCount}
+            aria-label="plus-count"
           >
             <PlusIcon />
           </ActionIcon>
@@ -66,7 +70,14 @@ export const VegetableCard = ({id, name, price, image}: VegetableCardProps) => {
 
       <Group wrap="nowrap" justify="space-between">
         <Text fw={500} style={{ flexShrink: 0 }}>$ {price}</Text>
-        <Button onClick={handleAddToCart} fullWidth className={styles['add-button']} color="#E7FAEB" radius="md" rightSection={<CartIcon/>}>
+        <Button
+          fullWidth
+          className={styles['add-button']}
+          color="#E7FAEB"
+          radius="md"
+          rightSection={<CartIcon/>}
+          onClick={handleAddToCart}
+        >
           Add to cart
         </Button>
       </Group>

@@ -19,6 +19,7 @@ export const CartPosition = ({id, image, name, price, count}: CartPositionProps)
     throw new Error('Контекст потерян')
   }
 
+
   const handleIncrementCartPosition = () => {
     context.incrementCartPosition(id);
   }
@@ -39,14 +40,18 @@ export const CartPosition = ({id, image, name, price, count}: CartPositionProps)
           variant="subtle"
           radius="md"
           onClick={decrementIncrementCartPosition}
+          aria-label="minus-count"
         >
           <MinusIcon />
         </ActionIcon>
-        <Text>{count}</Text>
+        <Text data-testid="product-count">
+          {count}
+        </Text>
         <ActionIcon
           variant="subtle"
           radius="md"
           onClick={handleIncrementCartPosition}
+          aria-label="plus-count"
         >
           <PlusIcon />
         </ActionIcon>

@@ -7,16 +7,21 @@ import { Loader } from '@mantine/core';
 
 const CardList = () => {
   const [products, setProducts] = useState<CardInfo[]>([]);
-  const [isLoading, setIsLoading] = useState<boolean>(true)
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     const getCardsInfo = async () => {
       try {
         setIsLoading(true)
         const response = await getProducts();
-        setProducts(response.data);
+        setProducts(response);
       } catch (error) {
-        console.log(error);
+        if (error instanceof Error) {
+          setError(error.message)
+        } else {
+          setError('Error')
+        }
       } finally {
         setIsLoading(false);
       }
@@ -28,10 +33,12 @@ const CardList = () => {
   return (
     <section className={styles.catalog}>
       <h2 className={styles.title}>Catalog</h2>
-      {isLoading ? (
-        <div className={styles['loader-wrapper']}>
+      { isLoading ? (
+        <div data-testid="loader" className={styles['loader-wrapper']}>
           <Loader color="green" size="xl" />
         </div>
+      ) : error ? (
+        <p>{error}</p>
       ) : (
         <ul className={styles.list}>
           {products.map((product) => (
