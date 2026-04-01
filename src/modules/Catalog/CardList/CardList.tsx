@@ -2,7 +2,6 @@ import styles from './style.module.scss'
 import { VegetableCard } from "../VegetableCard/VegetableCard.tsx";
 import {getProducts} from "../api/GetProducts.ts";
 import { useEffect, useState} from "react";
-import type {CardInfo} from "../../../types/cardTypes.ts";
 import { Loader } from '@mantine/core';
 
 const CardList = () => {
@@ -13,7 +12,8 @@ const CardList = () => {
   useEffect(() => {
     const getCardsInfo = async () => {
       try {
-        setIsLoading(true)
+        setIsLoading(true);
+        setError(null);
         const response = await getProducts();
         setProducts(response);
       } catch (error) {

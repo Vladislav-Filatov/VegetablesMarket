@@ -1,5 +1,4 @@
 import {createContext} from "react";
-import type {CardInfo} from "../types/cardTypes.ts";
 
 export interface CartPositionInfo extends CardInfo{
   count: number
