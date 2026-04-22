@@ -2,8 +2,8 @@ import {ActionIcon, Group, Stack, Text} from "@mantine/core";
 import MinusIcon from '../../../assets/minus-button.svg?react';
 import PlusIcon from '../../../assets/plus-button.svg?react';
 import styles from './style.module.scss'
-import {useContext} from "react";
-import {CartContext} from "../../../context/CartContext.ts";
+import { useAppDispatch } from "../../../store/redux.ts";
+import { decrementCartPosition, incrementCartPosition } from "../../../store/cartSlice.tsx";
 
 interface CartPositionProps {
   id: number
@@ -14,19 +14,16 @@ interface CartPositionProps {
 }
 
 export const CartPosition = ({id, image, name, price, count}: CartPositionProps) => {
-  const context = useContext(CartContext);
+  const dispatch = useAppDispatch();
   const [title, weight] = name.split(' - ');
-  if (!context) {
-    throw new Error('Контекст потерян')
-  }
 
 
   const handleIncrementCartPosition = () => {
-    context.incrementCartPosition(id);
+    dispatch(incrementCartPosition({id}));
   }
 
   const decrementIncrementCartPosition = () => {
-    context.decrementCartPosition(id);
+    dispatch(decrementCartPosition({id}));
   }
 
   return (

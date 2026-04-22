@@ -1,34 +1,17 @@
 import styles from './style.module.scss'
 import { VegetableCard } from "../VegetableCard/VegetableCard.tsx";
-import {getProducts} from "../api/GetProducts.ts";
-import { useEffect, useState} from "react";
+import { useEffect } from "react";
 import { Loader } from '@mantine/core';
+import {useAppDispatch, useAppSelector} from "../../../store/redux.ts";
+import {fetchProducts} from "../../../store/catalogSlice.tsx";
 
 const CardList = () => {
-  const [products, setProducts] = useState<CardInfo[]>([]);
-  const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [error, setError] = useState<string | null>(null);
+  const {products, isLoading, error} = useAppSelector(state => state.catalog);
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
-    const getCardsInfo = async () => {
-      try {
-        setIsLoading(true);
-        setError(null);
-        const response = await getProducts();
-        setProducts(response);
-      } catch (error) {
-        if (error instanceof Error) {
-          setError(error.message)
-        } else {
-          setError('Error')
-        }
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    void getCardsInfo();
-  }, []);
+    dispatch(fetchProducts());
+  }, [dispatch]);
 
   return (
     <section className={styles.catalog}>

@@ -1,8 +1,6 @@
 import {describe, expect} from "vitest";
 import {CartPopup} from "../index.ts";
-import {CartContext} from "../../../context/CartContext.ts";
-import {render} from "@testing-library/react";
-import {MantineProvider} from "@mantine/core";
+import {renderWithStore} from "../../../test/renderWithStore.tsx";
 import {screen} from "@testing-library/react";
 
 vi.mock('../CartPosition/CartPosition.tsx', () => (
@@ -33,20 +31,10 @@ describe('Cart', () => {
   });
 
   it('Корректно отображается пустая корзина', () => {
-    render(
-      <MantineProvider>
-        <CartContext.Provider
-          value={{
-            cartList: [],
-            addToCart: vi.fn(),
-            incrementCartPosition: vi.fn(),
-            decrementCartPosition: vi.fn(),
-          }}
-        >
-          <CartPopup />
-        </CartContext.Provider>
-      </MantineProvider>
-    );
+    renderWithStore(<CartPopup/>, {
+      cart: {cartList: []},
+      catalog: { products: [], isLoading: false, error: null },
+    });
 
     expect(screen.getByAltText('Корзина пуста')).toBeInTheDocument();
     expect(screen.getByText('Ваша корзина пока пуста')).toBeInTheDocument();
@@ -54,23 +42,14 @@ describe('Cart', () => {
   });
 
   it('Корректно отображается, если в cartList есть товары', () => {
-    render(
-      <MantineProvider>
-        <CartContext.Provider
-          value={{
-            cartList: [
-              { id: 1, name: 'Broccoli', price: 10, image: 'src', count: 1 },
-              { id: 2, name: 'Carrot', price: 20, image: 'src', count: 2 }
-            ],
-            addToCart: vi.fn(),
-            incrementCartPosition: vi.fn(),
-            decrementCartPosition: vi.fn(),
-          }}
-        >
-          <CartPopup />
-        </CartContext.Provider>
-      </MantineProvider>
-    );
+    renderWithStore(<CartPopup/>, {
+      cart: {cartList: [
+          { id: 1, name: 'Broccoli', price: 10, image: 'src', count: 1 },
+          { id: 2, name: 'Carrot', price: 20, image: 'src', count: 2 }
+        ],
+      },
+      catalog: { products: [], isLoading: false, error: null },
+    });
 
     const cartPositions = screen.getAllByTestId('cart-position')
 
@@ -80,25 +59,15 @@ describe('Cart', () => {
   });
 
   it('Корректно считается общая сумма корзины', () => {
-    render(
-      <MantineProvider>
-        <CartContext.Provider
-          value={{
-            cartList: [
-              { id: 1, name: 'Broccoli', price: 10, image: 'src', count: 1 },
-              { id: 2, name: 'Carrot', price: 20, image: 'src', count: 2 }
-            ],
-            addToCart: vi.fn(),
-            incrementCartPosition: vi.fn(),
-            decrementCartPosition: vi.fn(),
-          }}
-        >
-          <CartPopup />
-        </CartContext.Provider>
-      </MantineProvider>
-    );
+    renderWithStore(<CartPopup/>, {
+      cart: {cartList: [
+          { id: 1, name: 'Broccoli', price: 10, image: 'src', count: 1 },
+          { id: 2, name: 'Carrot', price: 20, image: 'src', count: 2 }
+        ],
+      },
+      catalog: { products: [], isLoading: false, error: null },
+    });
 
     expect(screen.getByText('$ 50')).toBeInTheDocument();
   });
-
 });

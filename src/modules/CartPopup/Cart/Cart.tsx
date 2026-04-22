@@ -1,17 +1,11 @@
 import cartEmpty from '../../../assets/cart_empty.png'
 import {Stack, Text, Image, Group} from '@mantine/core';
 import styles from './style.module.scss'
-import { useContext } from "react";
-import {CartContext} from "../../../context/CartContext.ts";
 import {CartPosition} from "../CartPosition/CartPosition.tsx";
+import { useAppSelector } from "../../../store/redux.ts";
 
 const Cart = () => {
-  const context =useContext(CartContext);
-  if (!context) {
-    throw new Error('Контекст потерян');
-  }
-  const cartList = context.cartList;
-
+  const cartList = useAppSelector(item => item.cart.cartList);
   const totalPrice = cartList.reduce((sum, item) => sum + item.price * item.count, 0)
 
   return (

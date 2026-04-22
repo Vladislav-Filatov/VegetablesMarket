@@ -1,10 +1,8 @@
 import {beforeEach, describe, expect} from "vitest";
-import {CartContext} from "../../../context/CartContext.ts";
-import {MantineProvider} from "@mantine/core";
-import {render} from "@testing-library/react";
 import {CartPosition} from "./CartPosition.tsx";
 import {screen} from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
+import {renderWithStore} from "../../../test/renderWithStore.tsx";
 
 describe('CartPosition', () => {
   beforeAll(() => {
@@ -28,25 +26,18 @@ describe('CartPosition', () => {
   });
 
   it('Корректно рендерится информация о позиции', () => {
-    render(
-      <MantineProvider>
-        <CartContext.Provider
-          value={{
-            cartList: [],
-            addToCart: vi.fn(),
-            incrementCartPosition: vi.fn(),
-            decrementCartPosition: vi.fn(),
-          }}
-        >
-          <CartPosition
-            id={1}
-            image="src"
-            name="Broccoli"
-            price={10}
-            count={3}
-          />
-        </CartContext.Provider>
-      </MantineProvider>
+    renderWithStore(
+      <CartPosition
+        id={1}
+        image="src"
+        name="Broccoli"
+        price={10}
+        count={3}
+      />,
+      {
+        cart: {cartList: []},
+        catalog: { products: [], isLoading: false, error: null },
+      }
     );
 
     expect(screen.getByAltText('Broccoli')).toBeInTheDocument();
@@ -57,64 +48,49 @@ describe('CartPosition', () => {
 
   it('При нажатии на плюс вызывается incrementCartPosition с id товара', async () => {
     const user = userEvent.setup();
-    const incrementCartPosition = vi.fn();
-    render(
-      <MantineProvider>
-        <CartContext.Provider
-          value={{
-            cartList: [],
-            addToCart: vi.fn(),
-            incrementCartPosition,
-            decrementCartPosition: vi.fn(),
-          }}
-        >
-          <CartPosition
-            id={1}
-            image="src"
-            name="Broccoli"
-            price={10}
-            count={3}
-          />
-        </CartContext.Provider>
-      </MantineProvider>
+    const {store} = renderWithStore(
+      <CartPosition
+        id={1}
+        image="src"
+        name="Broccoli"
+        price={10}
+        count={3}
+      />,
+      {
+        cart: {cartList: [
+          { id: 1, image: 'src', name: 'Broccoli - 1kg', price: 10, count: 2 },
+        ]},
+        catalog: { products: [], isLoading: false, error: null },
+      }
     );
 
     const plusButton = screen.getByRole('button', {name: 'plus-count'});
     await user.click(plusButton);
 
-    expect(incrementCartPosition).toHaveBeenCalledTimes(1);
-    expect(incrementCartPosition).toHaveBeenCalledWith(1);
+    expect(store.getState().cart.cartList[0].count).toBe(3);
   });
 
   it('При нажатии на минус вызывается decrementCartPosition с id товара', async () => {
     const user = userEvent.setup();
-    const decrementCartPosition = vi.fn();
-    render(
-      <MantineProvider>
-        <CartContext.Provider
-          value={{
-            cartList: [],
-            addToCart: vi.fn(),
-            incrementCartPosition: vi.fn(),
-            decrementCartPosition,
-          }}
-        >
-          <CartPosition
-            id={1}
-            image="src"
-            name="Broccoli"
-            price={10}
-            count={3}
-          />
-        </CartContext.Provider>
-      </MantineProvider>
+    const {store} = renderWithStore(
+      <CartPosition
+        id={1}
+        image="src"
+        name="Broccoli"
+        price={10}
+        count={3}
+      />,
+      {
+        cart: {cartList: [
+            { id: 1, image: 'src', name: 'Broccoli - 1kg', price: 10, count: 2 },
+          ]},
+        catalog: { products: [], isLoading: false, error: null },
+      }
     );
 
     const minusButton = screen.getByRole('button', {name: 'minus-count'});
     await user.click(minusButton);
 
-    expect(decrementCartPosition).toHaveBeenCalledTimes(1);
-    expect(decrementCartPosition).toHaveBeenCalledWith(1);
+    expect(store.getState().cart.cartList[0].count).toBe(1);
   });
-
 });

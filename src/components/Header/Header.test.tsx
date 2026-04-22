@@ -1,7 +1,5 @@
 import { describe, expect } from "vitest";
-import { render } from "@testing-library/react";
-import { MantineProvider } from "@mantine/core";
-import { CartContext } from "../../context/CartContext.ts";
+import {renderWithStore} from "../../test/renderWithStore.tsx";
 import Header from "./Header.tsx";
 import { screen } from "@testing-library/react";
 import {userEvent} from "@testing-library/user-event";
@@ -29,21 +27,11 @@ describe('Header', () => {
     });
   });
 
-  it ('Корректно рендерится название страницы и кнопку корзизны', () => {
-    render(
-      <MantineProvider>
-        <CartContext.Provider
-          value={{
-            cartList: [],
-            addToCart: vi.fn(),
-            incrementCartPosition: vi.fn(),
-            decrementCartPosition: vi.fn(),
-          }}
-        >
-          <Header/>
-        </CartContext.Provider>
-      </MantineProvider>
-    );
+  it ('Корректно рендерится название страницы и кнопка корзизны', () => {
+    renderWithStore(<Header/>, {
+      cart: {cartList: []},
+      catalog: { products: [], isLoading: false, error: null },
+    });
 
     expect(screen.getByText('Vegetable')).toBeInTheDocument();
     expect(screen.getByText('SHOP')).toBeInTheDocument();
@@ -52,40 +40,20 @@ describe('Header', () => {
   });
 
   it('При наличии товаров в корзине корректно отображается их кол-во', () => {
-    render(
-      <MantineProvider>
-        <CartContext.Provider
-          value={{
-            cartList: [{ id: 1, name: 'Broccoli', price: 10, image: 'src', count: 1 }],
-            addToCart: vi.fn(),
-            incrementCartPosition: vi.fn(),
-            decrementCartPosition: vi.fn(),
-          }}
-        >
-          <Header/>
-        </CartContext.Provider>
-      </MantineProvider>
-    );
+    renderWithStore(<Header/>, {
+      cart: {cartList: [{ id: 1, name: 'Broccoli', price: 10, image: 'src', count: 1 }]},
+      catalog: { products: [], isLoading: false, error: null },
+    });
 
     expect(screen.getByText('1')).toBeInTheDocument();
   });
 
   it('При нажатии на кнопку корзины открывается попап ', async () => {
     const user = userEvent.setup();
-    render(
-      <MantineProvider>
-        <CartContext.Provider
-          value={{
-            cartList: [],
-            addToCart: vi.fn(),
-            incrementCartPosition: vi.fn(),
-            decrementCartPosition: vi.fn(),
-          }}
-        >
-          <Header/>
-        </CartContext.Provider>
-      </MantineProvider>
-    );
+    renderWithStore(<Header/>, {
+      cart: {cartList: []},
+      catalog: { products: [], isLoading: false, error: null },
+    });
 
     const cartButton = screen.getByRole('button', {name: 'Cart'})
     await user.click(cartButton);

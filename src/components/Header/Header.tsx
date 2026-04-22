@@ -2,14 +2,10 @@ import {Badge, Button, Popover} from '@mantine/core';
 import CartIcon from "../../assets/cart.svg?react"
 import styles from './style.module.scss';
 import { CartPopup } from "../../modules/CartPopup";
-import { useContext } from "react";
-import {CartContext} from "../../context/CartContext.ts";
+import {useAppSelector} from "../../store/redux.ts";
 
 const Header = () => {
-  const context = useContext(CartContext);
-  if (!context) {
-    throw new Error('Контекст потерян');
-  }
+  const cartList = useAppSelector(state => state.cart.cartList);
 
   return (
     <header className={styles.header}>
@@ -25,9 +21,9 @@ const Header = () => {
             variant="filled"
             color="#54B46A"
             leftSection={
-              context.cartList.length > 0 ?
+              cartList.length > 0 ?
                 <span className={styles['cart-counter']}>
-                  {context.cartList.length}
+                  {cartList.length}
                 </span>
                 : null
             }

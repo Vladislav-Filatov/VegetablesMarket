@@ -3,8 +3,9 @@ import styles from './style.module.scss'
 import CartIcon from "../../../assets/cart.svg?react"
 import MinusIcon from '../../../assets/minus-button.svg?react';
 import PlusIcon from '../../../assets/plus-button.svg?react';
-import {useState, useContext} from "react";
-import {CartContext} from "../../../context/CartContext.ts";
+import {useState} from "react";
+import {useAppDispatch} from "../../../store/redux.ts";
+import {addToCart} from "../../../store/cartSlice.tsx";
 
 type VegetableCardProps = {
   id: number;
@@ -15,15 +16,12 @@ type VegetableCardProps = {
 
 export const VegetableCard = ({id, name, price, image}: VegetableCardProps) => {
   const [count, setCount] = useState<number>(1);
-  const context = useContext(CartContext);
   const [title, weight] = name.split(' - ');
-  if (!context) {
-    throw new Error('Контекст потерян');
-  }
-  const { addToCart } = context;
+  const dispatch = useAppDispatch();
 
   const handleAddToCart = () => {
-    addToCart({id, name, price, image, count});
+    // addToCart({id, name, price, image, count});
+    dispatch(addToCart({id, name, price, image, count}));
   }
 
   const handlePlusCount = () => {
@@ -49,7 +47,7 @@ export const VegetableCard = ({id, name, price, image}: VegetableCardProps) => {
           <Text fw={600} size="18px">
             {title}
           </Text>
-          <Text fw={600} size="14px" color="#868E96">
+          <Text fw={600} size="14px" c="#868E96">
             {weight}
           </Text>
         </Group>
